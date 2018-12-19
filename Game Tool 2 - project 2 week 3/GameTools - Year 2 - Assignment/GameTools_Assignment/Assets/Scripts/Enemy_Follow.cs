@@ -8,12 +8,12 @@ public class Enemy_Follow : MonoBehaviour {
     Animator anim;
     //bool pursuing = false;
 
-   // string state = "patrol";
-    //public GameObject[] waypoints;
-    //int currentWP = 0;
-    //public float rotSpeed = 0.2f;
+    string state = "patrol";
+    public GameObject[] waypoints;
+    int currentWP = 0;
+    public float rotSpeed = 0.2f;
     public float speed = 1.5f;
-   // float accuraccyWP = 5.0f;
+   float accuraccyWP = 5.0f;
 
 	
 	void Start () {
@@ -24,10 +24,10 @@ public class Enemy_Follow : MonoBehaviour {
 	
 	void Update () {
         Vector3 direction = player.position - this.transform.position;
-        direction.y = 0;
+        direction.x = 0;
         float angle = Vector3.Angle(direction, this.transform.forward);
 
-        /*if ( state == "patrol" && waypoints.Length > 0)
+        if ( state == "patrol" && waypoints.Length > 0)
         {
             anim.SetBool("isIdle", false);
             anim.SetBool("isWalking", true);
@@ -44,16 +44,16 @@ public class Enemy_Follow : MonoBehaviour {
             direction = waypoints[currentWP].transform.position - transform.position;
             this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
             this.transform.Translate(0, 0, Time.deltaTime * speed);
-        }*/
+        }
 
            
-            if (Vector3.Distance(player.position, this.transform.position) < 4 && angle < 35 )
+            if (Vector3.Distance(player.position, this.transform.position) < 30 && angle < 60 )
             {
-                 //state = "pursuing";
+            state = "pursuing";
                  this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), speed * Time.deltaTime);
 
                  anim.SetBool("isIdle", false);
-                if (direction.magnitude > 5)
+                if (direction.magnitude > 3)
                 {
                     this.transform.Translate(0, 0, Time.deltaTime *speed);
                     anim.SetBool("Walking", true);
@@ -71,7 +71,7 @@ public class Enemy_Follow : MonoBehaviour {
             anim.SetBool("isIdle", true);
             anim.SetBool("Walking", false);
             anim.SetBool("attacking", false);
-           // state = "patrol";
+            state = "patrol";
         }
         
 	}
